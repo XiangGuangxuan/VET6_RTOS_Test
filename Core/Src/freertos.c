@@ -49,6 +49,7 @@
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId LEDTaskHandle;
+osThreadId printfTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -57,6 +58,7 @@ osThreadId LEDTaskHandle;
 
 void StartDefaultTask(void const * argument);
 void LED_Task(void const * argument);
+void print_Task(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -111,6 +113,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(LEDTask, LED_Task, osPriorityIdle, 0, 128);
   LEDTaskHandle = osThreadCreate(osThread(LEDTask), NULL);
 
+  /* definition and creation of printfTask */
+  osThreadDef(printfTask, print_Task, osPriorityIdle, 0, 256);
+  printfTaskHandle = osThreadCreate(osThread(printfTask), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -155,6 +161,24 @@ void LED_Task(void const * argument)
 		osDelay(500);
   }
   /* USER CODE END LED_Task */
+}
+
+/* USER CODE BEGIN Header_print_Task */
+/**
+* @brief Function implementing the printfTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_print_Task */
+void print_Task(void const * argument)
+{
+  /* USER CODE BEGIN print_Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END print_Task */
 }
 
 /* Private application code --------------------------------------------------*/
